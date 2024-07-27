@@ -5,7 +5,12 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import io from 'socket.io-client';
 import { loginApi } from '@/api/login';
-const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app');
+const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app', {
+    // transports: ['websocket'],
+    // upgrade: false,
+    // rejectUnauthorized: false,
+    withCredentials: true,
+});
 
 const Login: React.FC = () => {
     const [userName, setUsername] = useState('');
