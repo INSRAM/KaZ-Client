@@ -3,14 +3,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app'
-    //     , {
-    //     // transports: ['websocket'],
-    //     // upgrade: false,
-    //     // rejectUnauthorized: false,
-    //     withCredentials: true,
-    // }
-); // Ensure this matches your backend URL
+// const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app'
+//     //     , {
+//     //     // transports: ['websocket'],
+//     //     // upgrade: false,
+//     //     // rejectUnauthorized: false,
+//     //     withCredentials: true,
+//     // }
+// ); // Ensure this matches your backend URL
+
+const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app', {
+    withCredentials: true,
+    transports: ['websocket', 'polling'], // Ensure both websocket and polling transports are allowed
+});
 
 interface Message {
     from: string;
