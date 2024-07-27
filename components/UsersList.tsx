@@ -29,8 +29,8 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
         const fetchUsers = async () => {
             try {
                 if (!isSearchActive) {
-                    const response = await axios.get(`http://localhost:3001/chat/myUsers/userName/${currentUserId}`, {
-                        // const response = await axios.get(`http://localhost:3001/chat/allusers`, {
+                    const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/myUsers/userName/${currentUserId}`, {
+                        // const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/allusers`, {
                         headers: {
                             'authorization': `Bearer ${localStorage.getItem('token')}`,
                         }

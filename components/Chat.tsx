@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001'); // Ensure this matches your backend URL
+const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app'); // Ensure this matches your backend URL
 
 interface Message {
     from: string;

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import io from 'socket.io-client';
 import { loginApi } from '@/api/login';
-const socket = io('http://localhost:3001');
+const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app');
 
 const Login: React.FC = () => {
     const [userName, setUsername] = useState('');

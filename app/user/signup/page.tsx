@@ -16,7 +16,7 @@ const Signup: React.FC = () => {
         e.preventDefault();
 
         try {
-            await axios.post('http://localhost:3001/chat/signup/user', {
+            await axios.post('https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/signup/user', {
                 name,
                 userName,
                 email,

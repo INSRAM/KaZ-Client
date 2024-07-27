@@ -28,7 +28,7 @@ const UserSearch: React.FC<SearchListProps> = ({ onUserSelect }) => {
         const handleSearch = async () => {
             if (query.length >= 3) {
                 try {
-                    const response = await axios.get(`http://localhost:3001/chat/searchuser/userName/${query}`, {
+                    const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/searchuser/userName/${query}`, {
                         headers: {
                             'authorization': `Bearer ${localStorage.getItem('token')}`,
                         }
@@ -112,8 +112,8 @@ export default UserSearch;
 //         const handleSearch = async () => {
 //             if (query.length >= 3) {
 //                 try {
-//                     const response = await axios.get(`http://localhost:3001/chat/searchuser/userName/${query}`, {
-//                         // const response = await axios.get(`http://localhost:3001/chat/allusers`, {
+//                     const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/searchuser/userName/${query}`, {
+//                         // const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/allusers`, {
 //                         headers: {
 //                             'authorization': `Bearer ${localStorage.getItem('token')}`,
 //                         }
