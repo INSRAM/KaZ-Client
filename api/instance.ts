@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import Router from 'next/router';
 
-const https = require('https')
+import https from 'https';
 
 export const axios = Axios.create({
     httpsAgent: new https.Agent({
@@ -24,3 +24,5 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+// export default axios;
