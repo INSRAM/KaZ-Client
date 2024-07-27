@@ -12,7 +12,8 @@ import io from 'socket.io-client';
 //     // }
 // ); // Ensure this matches your backend URL
 
-const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app', {
+// const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app', {
+const socket = io('https://sufficient-daveen-kaz-tech-9473c93c.koyeb.app', {
     withCredentials: true,
     transports: ['websocket', 'polling'], // Ensure both websocket and polling transports are allowed
 });
