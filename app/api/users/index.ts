@@ -36,10 +36,22 @@ const myUsers = async (userName: string) => {
     }
 }
 
+const searchUsers = async (query: string) => {
+    try {
+        console.log("this is query ==> ", query)
+        const res: any = await axios.get(`/chat/searchuser/userName/${query}`);
+        console.log("this is data _____> ", res.data)
+        return res.data;
+    } catch (error: any) {
+        throw error.response.data?.error;
+    }
+}
+
 export {
     logIn,
     signUp,
-    myUsers
+    myUsers,
+    searchUsers
 }
 
 

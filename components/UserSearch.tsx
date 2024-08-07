@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { apiUsers } from '@/app/api';
 
 interface User {
     _id: string;
@@ -28,13 +29,9 @@ const UserSearch: React.FC<SearchListProps> = ({ onUserSelect }) => {
         const handleSearch = async () => {
             if (query.length >= 3) {
                 try {
-                    const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/searchuser/userName/${query}`, {
-                        headers: {
-                            'authorization': `Bearer ${localStorage.getItem('token')}`,
-                        }
-                    });
+                    const response = await apiUsers.searchUsers(query);
                     console.log("this is search response ==< ", response);
-                    setResults(response.data.users);
+                    setResults(response.users);
                 } catch (error) {
                     console.error('Error searching users:', error);
                 }
