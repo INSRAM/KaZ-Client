@@ -13,12 +13,12 @@ export default function SecuredLayout({
 }>) {
     const router = useRouter();
     const pathname = usePathname();
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token && !['/user/login', '/user/signup'].includes(pathname)) {
-            router.push("/user/login")
-        }
-    }, []);
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (!token && !['/user/login', '/user/signup'].includes(pathname)) {
+    //         router.push("/user/login")
+    //     }
+    // }, []);
 
     return (
         <html lang="en">

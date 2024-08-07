@@ -1,22 +1,8 @@
 "use client"
 
+import { getUserName, setUserName } from '@/lib/auth';
+import { disconnectPrivateMessage, getChatHistory, listenForPrivateMessage, registerOnSocket, sendPrivateMessage } from '@/sockets';
 import React, { useState, useEffect, useRef } from 'react';
-import io from 'socket.io-client';
-
-// const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app'
-//     //     , {
-//     //     // transports: ['websocket'],
-//     //     // upgrade: false,
-//     //     // rejectUnauthorized: false,
-//     //     withCredentials: true,
-//     // }
-// ); // Ensure this matches your backend URL
-
-// const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app', {
-const socket = io('https://sufficient-daveen-kaz-tech-9473c93c.koyeb.app', {
-    withCredentials: true,
-    transports: ['websocket', 'polling'], // Ensure both websocket and polling transports are allowed
-});
 
 interface Message {
     from: string;
@@ -35,16 +21,19 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
 
     useEffect(() => {
         if (userId) {
-            localStorage.setItem('userName', userId);
-            socket.emit('register', userId);
+            // setting user name in cookies
+            setUserName(userId)
+            // register on socket
+            registerOnSocket(userId);
         }
 
-        socket.on('private message', ({ from, message }: Message) => {
+        // listening for private message from 
+        listenForPrivateMessage(({ from, message }: Message) => {
             setMessages((prevMessages) => [...prevMessages, { from, message }]);
-        });
+        })
 
         return () => {
-            socket.off('private message');
+            disconnectPrivateMessage();
         };
     }, [userId]);
 
@@ -55,20 +44,25 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
     }, [messages]);
 
     useEffect(() => {
-        socket.emit('get history', { userId, targetUserId }, (response: Message[]) => {
-            setMessages([]);
-            response.forEach((message: Message) => {
-                setMessages((prevMessages) => [...prevMessages, message]);
-            });
-
+        // get chat history when targetUserId changes 
+        getChatHistory(userId, targetUserId, (history: Message[]) => {
+            setMessages(history);
+            // setMessages([]);
+            // history.forEach((message: Message) => {
+            //     setMessages((prevMessages) => [...prevMessages, message]);
+            // });
         });
     }, [targetUserId]);
 
 
-    const sendMessage = () => {
-        const storedUserId = localStorage.getItem('userName');
+    const sendMessage = async () => {
+        // const storedUserId = localStorage.getItem('userName');
+        const storedUserId: any = await getUserName()
         if (newMessage.trim() !== '' && targetUserId.trim() !== '' && storedUserId) {
-            socket.emit('private message', { from: storedUserId, to: targetUserId, message: newMessage });
+
+            // send private message to socket
+            sendPrivateMessage({ from: storedUserId, to: targetUserId, message: newMessage });
+
             setMessages((prevMessages) => [...prevMessages, { from: userId, message: newMessage }]);
             setNewMessage('');
         }

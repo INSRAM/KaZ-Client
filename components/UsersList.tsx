@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaSearch, FaArrowLeft } from 'react-icons/fa';
 import UserSearch from './UserSearch';
+import { apiUsers } from '@/app/api';
 
 interface User {
     user: {
@@ -29,21 +30,16 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
         const fetchUsers = async () => {
             try {
                 if (!isSearchActive) {
-                    const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/myUsers/userName/${currentUserId}`, {
-                        // const response = await axios.get(`https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/allusers`, {
-                        headers: {
-                            'authorization': `Bearer ${localStorage.getItem('token')}`,
-                        }
-                    });
-                    setUsers(response.data.user);
+                    const response = await apiUsers.myUsers(currentUserId);
+                    setUsers(response.user);
                 }
             } catch (err) {
-                console.error('Failed to fetch users:', err);
+                // console.error('Failed to fetch users:', err);
+                throw err;
             }
         };
-
         fetchUsers();
-    }, [currentUserId]);
+    }, [currentUserId, isSearchActive]);
 
     const handleUserSelect = (userName: string) => {
         setActiveUser(userName);

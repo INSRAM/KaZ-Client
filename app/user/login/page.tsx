@@ -1,73 +1,50 @@
 "use client"
 
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { useFormState } from 'react-dom'
 import { useRouter } from 'next/navigation';
-import io from 'socket.io-client';
-import { loginApi } from '@/api/login';
-// const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app'
-//     // , {
-//     // // transports: ['websocket'],
-//     // // upgrade: false,
-//     // // rejectUnauthorized: false,
-//     // withCredentials: true,
-//     // }
-// );
+import { users } from '@/app/actions';
+import { SubmitButton } from '@/components/submit/button';
 
-// const socket = io('https://ka-z-severve-git-master-insrams-projects.vercel.app', {
-const socket = io('https://sufficient-daveen-kaz-tech-9473c93c.koyeb.app', {
-    withCredentials: true,
-    transports: ['websocket', 'polling'], // Ensure both websocket and polling transports are allowed
-});
-
+const initialState = { errorMessage: '' };
 const Login: React.FC = () => {
-    const [userName, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const router = useRouter();
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            const response = await loginApi({ userName, password });
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userName', userName);
-            socket.emit('register', userName);
-            router.push('/');
-        } catch (err) {
-            console.error('Login error:', err);
-        }
-    };
+    const [state, formAction] = useFormState(users.loginUser, initialState);
 
     const handleRegister = () => {
         router.push('/user/signup'); // Adjust the route as necessary
     };
 
+
+
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
-            <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
-                <h2 className="text-2xl font-bold mb-4">Login</h2>
-                <div className="mb-4">
-                    <label className="block mb-1">Username</label>
+            <form action={formAction} className="bg-white p-6 rounded shadow-md w-full max-w-sm" method="post">
+                <h2 className="text-2xl font-bold mb-2">Login</h2>
+                {state.errorMessage && (
+                    <p style={{ color: 'red' }}>{state.errorMessage}</p>
+                )}
+                <div className="mb-4 mt-2">
+                    <label className="block mb-1" htmlFor="userName">Username*</label>
                     <input
+                        id="userName"
+                        name="userName"
                         type="text"
-                        value={userName}
-                        onChange={(e) => setUsername(e.target.value)}
                         className="w-full p-2 border rounded"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block mb-1">Password</label>
+                    <label className="block mb-1" htmlFor="password">Password*</label>
                     <input
+                        id="password"
+                        name="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                         className="w-full p-2 border rounded"
                         required
                     />
                 </div>
-                <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">Login</button>
+                <SubmitButton text='Login' />
                 <button
                     type="button"
                     onClick={handleRegister}
@@ -81,5 +58,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-
-

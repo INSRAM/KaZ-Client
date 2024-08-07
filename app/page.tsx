@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Chat from '@/components/Chat';
 import UsersList from '@/components/UsersList';
+import { getUserName } from '@/lib/auth';
 const Home: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string>(''); // Replace with actual current user ID
@@ -13,8 +14,13 @@ const Home: React.FC = () => {
 
   // Fetch user name from localStorage on component mount
   useEffect(() => {
-    const userName: any = localStorage.getItem('userName');
-    setCurrentUserId(userName); // Set default if no userName found
+    const users = async () => {
+      // const userName: any = localStorage.getItem('userName');
+      const userName: any = await getUserName()
+      setCurrentUserId(userName); // Set default if no userName found
+    }
+    users();
+
   }, []);
 
 
