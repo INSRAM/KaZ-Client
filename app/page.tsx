@@ -34,7 +34,7 @@ const Home: React.FC = () => {
           <Chat userId={currentUserId} targetUserId={selectedUser} />
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <p>Select a user to start chatting</p>
+            <p>Welcome to KaZ 😎</p>
           </div>
         )}
       </div>

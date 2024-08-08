@@ -39,6 +39,7 @@ const UserSearch: React.FC<SearchListProps> = ({ onUserSelect }) => {
             }
         };
 
+        // waiting that user will write something
         const delayDebounceFn = setTimeout(() => {
             handleSearch();
         }, 300);

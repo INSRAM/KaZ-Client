@@ -50,7 +50,7 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
     };
 
     return (
-        <div className="w-64 bg-gray-100 p-2 overflow-y-auto">
+        <div className="w-1/4 bg-gray-100 p-2 overflow-y-auto">
             {isSearchActive ? (
                 <div>
                     <button
@@ -83,10 +83,10 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
                                 onClick={() => handleUserSelect(user_.user.userName)}
                             >
                                 <p className="flex flex-col">
-                                    <span className="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis max-w-full">
+                                    <span className="font-bold whitespace-nowrap overflow-hidden text-ellipsis">
                                         {user_.user.userName}
                                     </span>
-                                    <span className="whitespace-nowrap overflow-hidden text-overflow-ellipsis max-w-full">
+                                    <span className="whitespace-nowrap overflow-hidden text-ellipsis">
                                         {user_.latestMessage}
                                     </span>
                                 </p>
