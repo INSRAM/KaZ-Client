@@ -30,7 +30,6 @@ const UserSearch: React.FC<SearchListProps> = ({ onUserSelect }) => {
             if (query.length >= 3) {
                 try {
                     const response = await apiUsers.searchUsers(query);
-                    console.log("this is search response ==< ", response);
                     setResults(response.users);
                 } catch (error) {
                     console.error('Error searching users:', error);

@@ -83,8 +83,12 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
                                 onClick={() => handleUserSelect(user_.user.userName)}
                             >
                                 <p className="flex flex-col">
-                                    <span className="font-bold">{user_.user.userName}</span>
-                                    {user_.latestMessage}
+                                    <span className="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis max-w-full">
+                                        {user_.user.userName}
+                                    </span>
+                                    <span className="whitespace-nowrap overflow-hidden text-overflow-ellipsis max-w-full">
+                                        {user_.latestMessage}
+                                    </span>
                                 </p>
                             </li>
                         ))}
