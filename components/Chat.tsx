@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
+import React, { useState, useEffect, useRef } from 'react';
 import { getUserName, setUserName } from '@/lib/auth';
 import { disconnectPrivateMessage, getChatHistory, listenForPrivateMessage, registerOnSocket, sendPrivateMessage } from '@/sockets';
-import React, { useState, useEffect, useRef } from 'react';
 
 interface Message {
     from: string;
@@ -21,48 +21,45 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
 
     useEffect(() => {
         if (userId) {
-            // setting user name in cookies
-            setUserName(userId)
-            // register on socket
             registerOnSocket(userId);
         }
 
-        // listening for private message from 
-        listenForPrivateMessage(({ from, message }: Message) => {
+        // Listen for private messages
+        const handleIncomingMessage = ({ from, message }: Message) => {
             setMessages((prevMessages) => [...prevMessages, { from, message }]);
-        })
+        };
+
+        listenForPrivateMessage(handleIncomingMessage);
 
         return () => {
+            // Disconnect socket when component unmounts or userId changes
             disconnectPrivateMessage();
         };
-    }, [userId]);
+    }, [userId]); // Re-run only when userId changes
 
     useEffect(() => {
+        // Scroll to the latest message when messages change
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, [messages]);
 
     useEffect(() => {
-        // get chat history when targetUserId changes 
-        getChatHistory(userId, targetUserId, (history: Message[]) => {
-            setMessages(history);
-            // setMessages([]);
-            // history.forEach((message: Message) => {
-            //     setMessages((prevMessages) => [...prevMessages, message]);
-            // });
-        });
-    }, [targetUserId]);
-
+        // Fetch chat history when targetUserId changes
+        if (userId && targetUserId) {
+            getChatHistory(userId, targetUserId, (history: Message[]) => {
+                setMessages(history);
+            });
+        }
+    }, [userId, targetUserId]); // Re-run when userId or targetUserId changes
 
     const sendMessage = async () => {
-        // const storedUserId = localStorage.getItem('userName');
-        const storedUserId: any = await getUserName()
-        if (newMessage.trim() !== '' && targetUserId.trim() !== '' && storedUserId) {
-
-            // send private message to socket
+        const storedUserId: any = await getUserName();
+        if (newMessage.trim() && targetUserId.trim() && storedUserId) {
+            // Send private message to socket
             sendPrivateMessage({ from: storedUserId, to: targetUserId, message: newMessage });
 
+            // Update local state with the new message
             setMessages((prevMessages) => [...prevMessages, { from: userId, message: newMessage }]);
             setNewMessage('');
         }
@@ -108,5 +105,3 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
 };
 
 export default Chat;
-
-
