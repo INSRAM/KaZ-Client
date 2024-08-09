@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaSearch, FaArrowLeft } from 'react-icons/fa';
 import UserSearch from './UserSearch';
 import { apiUsers } from '@/app/api';
+import { getUserName } from '@/lib/auth';
 
 interface User {
     user: {
@@ -13,11 +14,10 @@ interface User {
 }
 
 interface UsersListProps {
-    currentUserId: string;
     onUserSelect: (userId: string) => void;
 }
 
-const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) => {
+const UsersList: React.FC<UsersListProps> = ({ onUserSelect }) => {
     const [users, setUsers] = useState<User[]>([]);
     const [activeUser, setActiveUser] = useState<string | null>(null);
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
@@ -26,6 +26,7 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
         const fetchUsers = async () => {
             try {
                 if (!isSearchActive) {
+                    const currentUserId: string = await getUserName();
                     const response = await apiUsers.myUsers(currentUserId);
                     setUsers(response.user);
                 }
@@ -34,7 +35,7 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
             }
         };
         fetchUsers();
-    }, [currentUserId, isSearchActive]);
+    }, [isSearchActive]);
 
     const handleUserSelect = (userName: string) => {
         setActiveUser(userName);
@@ -64,7 +65,7 @@ const UsersList: React.FC<UsersListProps> = ({ currentUserId, onUserSelect }) =>
             ) : (
                 <div>
                     <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-xs font-normal">Recent Chats</h2>
+                        <h2 className="text-xs font-normal">My <b className='text-blue-700'>KaZ</b> Chats</h2>
                         <button
                             onClick={handleSearchClick}
                             className="text-blue-500 hover:text-blue-700 float-right"

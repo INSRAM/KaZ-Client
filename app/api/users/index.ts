@@ -32,7 +32,8 @@ const myUsers = async (userName: string) => {
         const res = await axios.get(`/chat/myUsers/userName/${userName}`);
         return res.data;
     } catch (error: any) {
-        throw error.response.data?.error;
+        console.log("this is error ==> ", error.response)
+        throw error.response?.data?.error;
     }
 }
 

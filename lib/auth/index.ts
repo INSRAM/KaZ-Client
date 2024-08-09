@@ -7,11 +7,11 @@ export async function setUserName(userName: string) {
 }
 
 export async function getUserName() {
-    return cookies().get('userName')?.value;
+    return cookies().get('userName')?.value ?? '';
 }
 
 export async function getToken() {
-    return cookies().get('token')?.value;
+    return cookies().get('token')?.value ?? '';;
 }
 
 export async function deleteToken() {

@@ -10,7 +10,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const fetchUserName = async () => {
-      console.log("Fetching user name");
       const userName: any = await getUserName();
       setCurrentUserId(userName);
     };
@@ -18,17 +17,12 @@ const Home: React.FC = () => {
   }, []);
 
   const handleUserSelect = (userId: string) => {
-    console.log("User selected:", userId);
     setSelectedUser(userId);
   };
 
-  console.log("Home component rendered");
-
   return (
     <div className="flex h-screen">
-      {currentUserId && (
-        <UsersList currentUserId={currentUserId} onUserSelect={handleUserSelect} />
-      )}
+      <UsersList onUserSelect={handleUserSelect} />
       <div className="flex-1 flex flex-col">
         {selectedUser ? (
           <Chat userId={currentUserId} targetUserId={selectedUser} />
