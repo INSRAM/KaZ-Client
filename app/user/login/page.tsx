@@ -4,7 +4,7 @@ import React from 'react';
 import { useFormState } from 'react-dom'
 import { useRouter } from 'next/navigation';
 import { users } from '@/app/actions';
-import { SubmitButton } from '@/components/submit/button';
+import { SubmitButton } from '@/app/components/submit/button';
 
 const initialState = { errorMessage: '' };
 const Login: React.FC = () => {

@@ -1,15 +1,18 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import Chat from '@/components/Chat';
-import UsersList from '@/components/UsersList';
+import React, { useState, useEffect, Suspense } from 'react';
 import { getUserName } from '@/lib/auth';
+import UsersList from './components/UsersList';
+import Chat from './components/Chat';
 
 const Home: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string>('');
 
   useEffect(() => {
+
     const fetchUserName = async () => {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
       const userName: any = await getUserName();
       setCurrentUserId(userName);
     };

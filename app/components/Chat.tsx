@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getUserName } from '@/lib/auth';
 import { disconnectPrivateMessage, getChatHistory, listenForPrivateMessage, registerOnSocket, sendPrivateMessage } from '@/sockets';
+import Loading from '../loading';
 
 interface Message {
     from: string;
@@ -15,6 +16,7 @@ interface ChatProps {
 const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(true);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const currentTargetUserId = useRef(targetUserId); // To keep track of targetUserId changes
 
@@ -36,8 +38,6 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
         }
 
         const handleIncomingMessage = ({ from, message }: Message) => {
-            console.log(`Target ID: ${currentTargetUserId.current}`, "Incoming message:", { from, message });
-
             // Only add the message if it's from the current targetUserId
             if (currentTargetUserId.current === from) {
                 setMessages((prevMessages) => [...prevMessages, { from, message }]);
@@ -46,6 +46,7 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
 
         listenForPrivateMessage(handleIncomingMessage);
 
+
         return () => {
             disconnectPrivateMessage();
         };
@@ -53,8 +54,10 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
 
     useEffect(() => {
         if (userId && targetUserId) {
+            setLoading(true);
             getChatHistory(userId, targetUserId, (history: Message[]) => {
                 setMessages(history);
+                setLoading(false);
             });
         }
     }, [userId, targetUserId]); // Re-run when userId or targetUserId changes
@@ -76,16 +79,20 @@ const Chat: React.FC<ChatProps> = ({ userId, targetUserId }) => {
 
     return (
         <div className="flex flex-col h-full">
-            <div className="flex-1 p-4 overflow-auto">
-                {messages.map((message, index) => (
-                    <div ref={messagesEndRef}
-                        key={index}
-                        className={`mb-4 p-2 rounded-lg break-words max-w-xs ${message.from === userId ? 'bg-blue-500 text-white float-right clear-both' : 'bg-gray-300 text-black float-left clear-both'}`}
-                    >
-                        {message.message}
-                    </div>
-                ))}
-            </div>
+            {loading ? (
+                <Loading />
+            ) :
+                <div className="flex-1 p-4 overflow-auto">
+                    {messages.map((message, index) => (
+                        <div ref={messagesEndRef}
+                            key={index}
+                            className={`mb-4 p-2 rounded-lg break-words max-w-xs ${message.from === userId ? 'bg-blue-500 text-white float-right clear-both' : 'bg-gray-300 text-black float-left clear-both'}`}
+                        >
+                            {message.message}
+                        </div>
+                    ))}
+                </div>
+            }
             <div className="p-4 bg-white shadow-md flex items-center">
                 <input
                     type="text"

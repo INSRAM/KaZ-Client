@@ -1,19 +1,26 @@
+import { Inter } from "next/font/google";
 import type { Metadata } from "next";
-import SecuredLayout from './securedLayout';
+import "./globals.css";
+const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "KaZ",
   description: "KaZ: Chat with ease",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <SecuredLayout>
-      {children}
-    </SecuredLayout>
+    <html lang="en">
+      <body className={inter.className} >
+        {/* Optionally, you can include other components or UI elements */}
+        {/* For example, a navigation bar or header */}
+        {/* <Navbar /> */}
+        {children}
+      </body>
+    </html>
   );
 }

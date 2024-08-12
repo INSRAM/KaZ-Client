@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiUsers } from '@/app/api';
+import Loading from '../loading';
 
 interface User {
     _id: string;
@@ -19,7 +20,7 @@ const UserSearch: React.FC<SearchListProps> = ({ onUserSelect }) => {
     const [activeUser, setActiveUser] = useState<string | null>(null);
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<User[]>([]);
-
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleUserSelect = (userName: string) => {
         setActiveUser(userName);
@@ -28,19 +29,24 @@ const UserSearch: React.FC<SearchListProps> = ({ onUserSelect }) => {
     useEffect(() => {
         const handleSearch = async () => {
             if (query.length >= 3) {
+                setLoading(true);
                 try {
                     const response = await apiUsers.searchUsers(query);
                     setResults(response.users);
                 } catch (error) {
                     console.error('Error searching users:', error);
+                } finally {
+                    setLoading(false);
                 }
             } else {
                 setResults([]);
             }
         };
 
+
         // waiting that user will write something
         const delayDebounceFn = setTimeout(() => {
+
             handleSearch();
         }, 300);
 
@@ -58,20 +64,21 @@ const UserSearch: React.FC<SearchListProps> = ({ onUserSelect }) => {
                     onChange={(e) => setQuery(e.target.value)}
                 />
             </div>
-            <ul className="overflow-y-auto">
-                {results.map((user_) => (
-                    <li
-                        key={user_._id}
-                        className={`p-2 cursor-pointer rounded-lg my-2 ${activeUser === user_.userName ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-400'}`}
-                        onClick={() => handleUserSelect(user_.userName)}
-                    >
-                        <p className="flex flex-col">
-                            <span className="font-bold">{user_.userName}</span>
-                            {user_.name}
-                        </p>
-                    </li>
-                ))}
-            </ul>
+            {loading ? <Loading /> :
+                <ul className="overflow-y-auto">
+                    {results.map((user_) => (
+                        <li
+                            key={user_._id}
+                            className={`p-2 cursor-pointer rounded-lg my-2 ${activeUser === user_.userName ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-400'}`}
+                            onClick={() => handleUserSelect(user_.userName)}
+                        >
+                            <p className="flex flex-col">
+                                <span className="font-bold">{user_.userName}</span>
+                                {user_.name}
+                            </p>
+                        </li>
+                    ))}
+                </ul>}
         </div>
     );
 };
