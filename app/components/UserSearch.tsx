@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { apiUsers } from '@/app/api';
 import Loading from '../loading';
 

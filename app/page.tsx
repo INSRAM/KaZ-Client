@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, Suspense } from 'react';
-import { getUserName } from '@/lib/auth';
+import { getUserName } from './lib/auth';
 import UsersList from './components/UsersList';
 import Chat from './components/Chat';
 

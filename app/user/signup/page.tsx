@@ -10,28 +10,6 @@ const signUpState = { errorMessage: '' };
 const Signup = () => {
     const [state, formAction] = useFormState(users.createUser, signUpState);
 
-    // const [name, setName] = useState('');
-    // const [userName, setUsername] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const router = useRouter();
-
-    // const handleSubmit = async (e: React.FormEvent) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         await axios.post('https://ka-z-severve-git-master-insrams-projects.vercel.app/chat/signup/user', {
-    //             name,
-    //             userName,
-    //             email,
-    //             password,
-    //         });
-    //         router.push('/user/login');
-    //     } catch (err) {
-    //         console.error('Signup error:', err);
-    //     }
-    // };
-
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
             <form action={formAction} className="bg-white p-6 rounded shadow-md w-full max-w-sm">

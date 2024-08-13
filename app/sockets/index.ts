@@ -1,7 +1,7 @@
 "use client";
 
-import { backEndURL } from '@/lib/constant';
 import io from 'socket.io-client';
+import { backEndURL } from '../lib/constant';
 // const socket = io('https://sufficient-daveen-kaz-tech-9473c93c.koyeb.app', {
 const socket = io(backEndURL, {
     withCredentials: true,
