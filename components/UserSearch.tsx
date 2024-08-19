@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { apiUsers } from '@/app/api';
-import Loading from '../loading';
+import Loading from '@/app/loading';
 
 interface User {
     _id: string;

@@ -3,7 +3,7 @@ import { FaSearch, FaArrowLeft } from 'react-icons/fa';
 import UserSearch from './UserSearch';
 import { apiUsers } from '@/app/api';
 import { getUserName } from '../lib/auth';
-import Loading from '../loading';
+import Loading from '@/app/loading';
 
 interface User {
     user: {

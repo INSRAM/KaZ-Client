@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { disconnectPrivateMessage, getChatHistory, listenForPrivateMessage, registerOnSocket, sendPrivateMessage } from '../sockets';
-import Loading from '../loading';
+import { disconnectPrivateMessage, getChatHistory, listenForPrivateMessage, registerOnSocket, sendPrivateMessage } from '@/sockets';
 import { getUserName } from '../lib/auth';
+import Loading from '@/app/loading';
 
 interface Message {
     from: string;

@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers'
 
 import https from 'https';
-import { backEndURL } from '../lib/constant';
+import { backEndURL } from '@/lib/constant';
 
 
 export const axios = Axios.create({

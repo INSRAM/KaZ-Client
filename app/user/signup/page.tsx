@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { users } from '@/app/actions';
 import { useFormState } from 'react-dom';
-import { SubmitButton } from '@/app/components/submit/button';
+import { SubmitButton } from '@/components/submit/button';
 
 const signUpState = { errorMessage: '' };
 const Signup = () => {

@@ -1,8 +1,8 @@
 "use client";
+import Chat from '@/components/Chat';
+import UsersList from '@/components/UsersList';
+import { getUserName } from '@/lib/auth';
 import React, { useState, useEffect, Suspense } from 'react';
-import { getUserName } from './lib/auth';
-import UsersList from './components/UsersList';
-import Chat from './components/Chat';
 
 const Home: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
